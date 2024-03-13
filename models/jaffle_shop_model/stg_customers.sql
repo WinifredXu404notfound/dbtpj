@@ -1,3 +1,4 @@
+
 with source as (
 
     select * from dbtyaky.jaffle_shop.raw_customers
