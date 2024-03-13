@@ -37,5 +37,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   dbtyaky:
-    # Applies to all files under models/
-    +materialized: table
+    tables:
+      materialized: tables
+    views:
+      materialized: views
