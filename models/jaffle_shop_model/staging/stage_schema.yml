@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_customers
+    columns:
+      - name: CustomerId
+        tests:
+          - unique
+          - not_null
+      - name: FirstName
+        tests:
+          - not_null
+      - name: LastName
+        tests:
+          - not_null
+
+  - name: stg_orders
+    columns:
+      - name: OrderId
+        tests:
+          - unique
+          - not_null
+      - name: UserId 
+        tests:
+          - not_null
+      - name: OrderDate
+        tests:
+          - not_null
+      - name: Status
+        tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+      - name: EtlLoadedAt
+        tests:
+        - not_null
+
+  - name: stg_payments
+    columns:
+      - name: PaymentId
+        tests:
+          - unique
+          - not_null
+      - name: OrderId
+        tests:
+          - not_null
+      - name: PaymentMethod
+        tests:
+          - accepted_values:
+              values: ['coupon', 'gift_card', 'credit_card', 'bank_transfer']
+      - name: Status
+        tests:
+          - accepted_values:
+              values: ['fail', 'success']
+      - name: Amount
+        tests:
+          - not_null
+      - name: Created
+        tests:
+          - not_null
+      - name: BatchedAt
+        tests:
+          - not_null
