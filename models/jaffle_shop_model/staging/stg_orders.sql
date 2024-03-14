@@ -2,7 +2,7 @@
 
 with source as 
 (
-    select * from dbtyaky.jaffle_shop.raw_orders
+    select * from dbtyaky.dbt_yxu.raw_orders
 )
 
 , renamed as 
