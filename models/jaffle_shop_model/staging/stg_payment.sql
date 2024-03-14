@@ -1,13 +1,12 @@
 {{ config(materialized='table') }}
 
-with source as (
-
+with source as 
+(
     select * from dbtyaky.stripe.raw_payment
-
 )
 
-, renamed as (
-
+, renamed as 
+(
     select
         cast(id as string) as PaymentId
         , cast(orderid as string) as OrderId
@@ -17,7 +16,6 @@ with source as (
         , cast(created as date) as Created
         , cast(_batched_at as timestamp) as BatchedAt
     from source
-
 )
 
 select * from renamed

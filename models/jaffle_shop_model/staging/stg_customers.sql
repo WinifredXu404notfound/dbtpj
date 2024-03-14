@@ -1,20 +1,17 @@
 {{ config(materialized='table') }}
 
-with source as (
-
+with source as 
+(
     select * from dbtyaky.jaffle_shop.raw_customers
-
 )
 
-, renamed as (
-
+, renamed as 
+(
     select
         cast(id as string) as CustomerId
         , cast(first_name as string) as FirstName
         , cast(last_name as string) as LastName 
-
     from source
-
 )
 
 select * from renamed

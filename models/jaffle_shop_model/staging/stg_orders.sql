@@ -1,13 +1,12 @@
 {{ config(materialized='table') }}
 
-with source as (
-
+with source as 
+(
     select * from dbtyaky.jaffle_shop.raw_orders
-
 )
 
-, renamed as (
-
+, renamed as 
+(
     select
         cast(id as string) as OrderId
         , cast(user_id as string) as UserId
@@ -15,7 +14,6 @@ with source as (
         , cast(status as string) as OrderStatus
         , cast(_etl_loaded_at as timestamp) as EtlLoadedAt
     from source
-
 )
 
 select * from renamed
