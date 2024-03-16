@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: tbl_customers_overview
+      - name: CustomerId
+        tests:
+          - unique
+          - not_null
+      - name: FirstName
+        tests:
+          - not_null
+      - name: LastName
+        tests:
+          - not_null
+      - name: FirstOrder
+        tests:
+          - not_null
+      - name: LatestOrder
+        tests:
+          - not_null
+      - name: TotalOrderCount
+        tests:
+          - not_null
+      - name: CustomerLifetimeValue
+        tests:
+          - not_null
