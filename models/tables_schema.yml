@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: tbl_customers_overview
+    columns:
       - name: CustomerId
         tests:
           - unique
