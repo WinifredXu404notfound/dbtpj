@@ -1,31 +1,29 @@
 {{ config(materialized='table') }}
 
 with customers_source as (select * from {{ref('stg_customers')}})
-
-, customers as 
 , orders_source as (select * from {{ref('stg_orders')}})
 , payments_source as (select * from {{ref('stg_payment')}})
 
 , customers as
 (
-    select CustomerId
-        , FirstName
-        , LastName
+    select cast(CustomerId as string) as CustomerId
+        , cast(FirstName as string) as FirstName
+        , cast(LastName as string) as LastName
     from customers_source
 )
 
 , orders as
 (
-    select OrderId
-        , UserId
-        , OrderDate
+    select cast(OrderId as string) as OrderId
+        , cast(UserId as string) as UserId
+        , cast(OrderDate as string) as OrderDate
     from orders_source
 )
 
 , payments as
 (
-    select OrderId
-        , Amount
+    select cast(OrderId as string) as OrderId
+        , cast(Amount as integer) as Amount
     from payments_source
 )
 
@@ -39,14 +37,18 @@ with customers_source as (select * from {{ref('stg_customers')}})
         , count(o.OrderId) as TotalOrderCount
     from customers as c
         right join orders as o on c.CustomerId = o.UserId
+    group by c.CustomerId
+        , c.FirstName
+        , c.LastName
 )
 
 , orders_payments as
 (
     select o.UserId
-        , p.sum(Amount) as CustomerLifetimeValue
+        , sum(p.Amount) as CustomerLifetimeValue
     from orders as o
         right join payments as p on o.OrderId = p.OrderId
+    group by o.UserId
 )
 
 , customers_overview as
