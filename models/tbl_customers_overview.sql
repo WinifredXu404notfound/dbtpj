@@ -6,7 +6,7 @@ with
         select customerid
             , firstname
             , lastname 
-        from {{ ref("stg_customers") }}
+        from {{ref('stg_customers')}}
     ),
 
     orders as 
@@ -15,7 +15,7 @@ with
             orderid
             , userid
             , orderdate 
-        from {{ ref("stg_orders") }}
+        from {{ref('stg_orders')}}
     ),
 
     payments as 
@@ -23,7 +23,7 @@ with
         select 
             orderid
             , amount 
-        from {{ ref("stg_payment") }}
+        from {{ref('stg_payment')}}
     ),
 
     customers_orders as 
