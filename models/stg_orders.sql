@@ -2,7 +2,7 @@
 
 with source as 
 (
-    select * from dbtyaky.dbt_yxu.raw_orders
+    select * from {{ref('raw_orders')}}
 )
 
 , renamed as 
