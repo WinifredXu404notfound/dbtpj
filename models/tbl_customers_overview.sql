@@ -1,63 +1,65 @@
 {{ config(materialized='table') }}
 
-with
-    customers as 
-    (
-        select customerid
-            , firstname
-            , lastname 
-        from {{ref('stg_customers')}}
-    ),
+with customers_source as (select * from {{ref('stg_customers')}})
 
-    orders as 
-    (
-        select 
-            orderid
-            , userid
-            , orderdate 
-        from {{ref('stg_orders')}}
-    ),
+, customers as 
+, orders_source as (select * from {{ref('stg_orders')}})
+, payments_source as (select * from {{ref('stg_payment')}})
 
-    payments as 
-    (
-        select 
-            orderid
-            , amount 
-        from {{ref('stg_payment')}}
-    ),
+, customers as
+(
+    select CustomerId
+        , FirstName
+        , LastName
+    from customers_source
+)
 
-    customers_orders as 
-    (
-        select
-            c.customerid,
-            c.firstname,
-            c.lastname,
-            min(o.orderdate) as firstorder,
-            max(o.orderdate) as latestorder,
-            count(o.orderid) as totalordercount
-        from customers as c
-            right join orders as o on c.customerid = o.userid
-    ),
+, orders as
+(
+    select OrderId
+        , UserId
+        , OrderDate
+    from orders_source
+)
 
-    orders_payments as 
-    (
-        select 
-            o.userid
-            , p.sum(amount) as cusomterlifetimevalue
-        from orders as o
-            right join payments as p on o.orderid = p.orderid
-    ),
-    customers_overview as (
-        select
-            co.customerid,
-            co.firstname,
-            co.lastname,
-            co.firstorder,
-            co.latestorder,
-            co.totalordercount,
-            op.cusomterlifetimevalue
-        from customers_orders as co
-            right join orders_payments as op on co.customerid = op.userid
-    )
+, payments as
+(
+    select OrderId
+        , Amount
+    from payments_source
+)
+
+, customers_orders as
+(
+    select c.CustomerId
+        , c.FirstName
+        , c.LastName
+        , min(o.OrderDate) as FirstOrder
+        , max(o.OrderDate) as LatestOrder
+        , count(o.OrderId) as TotalOrderCount
+    from customers as c
+        right join orders as o on c.CustomerId = o.UserId
+)
+
+, orders_payments as
+(
+    select o.UserId
+        , p.sum(Amount) as CustomerLifetimeValue
+    from orders as o
+        right join payments as p on o.OrderId = p.OrderId
+)
+
+, customers_overview as
+(
+    select co.CustomerId
+        , co.FirstName
+        , co.LastName
+        , co.FirstOrder
+        , co.LatestOrder
+        , co.TotalOrderCount
+        , op.CustomerLifetimeValue
+    from customers_orders as co
+        right join orders_payments as op on co.CustomerId = op.UserId
+)
 
 select * from customers_overview
