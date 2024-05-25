@@ -57,7 +57,7 @@ with customers_source as (select * from {{ref('stg_customers')}})
         , p.PaymentCreated
     from orders2customers as o2c
         right join payments as p on o2c.OrderId = p.OrderId
-    when p.PaymentStatus = 'success'
+    where p.PaymentStatus = 'success'
     order by CustomerLifetimeValue DESC
 )
 
