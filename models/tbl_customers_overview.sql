@@ -6,24 +6,24 @@ with customers_source as (select * from {{ref('stg_customers')}})
 
 , customers as
 (
-    select cast(CustomerId as string) as CustomerId
-        , cast(FirstName as string) as FirstName
-        , cast(LastName as string) as LastName
+    select CustomerId
+        , FirstName
+        , LastName
     from customers_source
 )
 
 , orders as
 (
-    select cast(OrderId as string) as OrderId
-        , cast(UserId as string) as UserId
-        , cast(OrderDate as string) as OrderDate
+    select OrderId
+        , UserId
+        , OrderDate
     from orders_source
 )
 
 , payments as
 (
-    select cast(OrderId as string) as OrderId
-        , cast(Amount as integer) as Amount
+    select OrderId
+        , Amount
     from payments_source
 )
 
