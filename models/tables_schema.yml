@@ -25,3 +25,60 @@ models:
       - name: CustomerLifetimeValue
         tests:
           - not_null
+
+  - name: tbl_order_fulfillment
+    columns:
+      - name: CustomerId
+        tests:
+          - unique
+          - not_null
+      - name: FirstName
+        tests:
+          - not_null
+      - name: LastName
+        tests:
+          - not_null
+      - name: CustomerLifeTimeValue
+        tests:
+          - not_null
+      - name: OrderId
+        tests:
+          - not_null
+      - name: PaymentId
+        tests:
+          - unique
+          - not_null
+      - name: OrderStatus
+        tests:
+          - not_null
+      - name: PaymentStatus
+        tests:
+          - not_null
+      - name: OrderCreated
+        tests:
+          - not_null
+      - name: PaymentCreated
+        tests:
+          - not_null
+
+  - name: tbl_payment_behavior
+    columns:
+      - name: CustomerId
+        tests:
+          - unique
+          - not_null
+      - name: FirstName
+        tests:
+          - not_null
+      - name: LastName
+        tests:
+          - not_null
+      - name: CustomerLifeTimeValue
+        tests:
+          - not_null
+      - name: PaymentMethod
+        tests:
+          - not_null
+      - name: PaymentCount
+        tests:
+          - not_null
